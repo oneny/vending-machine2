@@ -20,13 +20,13 @@ function renderColaList(colas) {
     const colaItem = document.createElement("li");
 
     const colaBtn = document.createElement("button");
-    colaBtn.classList.add("btn-cola");
+    colaBtn.classList.add("btn-item");
     colaItem.appendChild(colaBtn);
 
     const colaImg = document.createElement("img");
     colaImg.setAttribute("src", el.source);
     colaImg.setAttribute("alt", el.alt);
-    colaImg.classList.add("img-cola");
+    colaImg.classList.add("img-item");
 
     const colaName = document.createElement("strong");
     colaName.classList.add("txt-name");
@@ -39,10 +39,12 @@ function renderColaList(colas) {
     colaBtn.append(colaImg, colaName, colaPrice);
 
     // 품절 시 이미지 요소 추가 및 버튼 클릭 불가
-    const soldOutImg = document.createElement("img");
-    soldOutImg.classList.add("sold-out");
     if (el.quantity <= 0) {
-      colaItem.appendChild(soldOutImg);
+      const soldOutImg = document.createElement("img");
+      soldOutImg.setAttribute("src", "./src/img/beverageImg/Sold-out.png");
+      colaBtn.classList.add("sold-out");
+      soldOutImg.classList.add("img-soldOut");
+      colaBtn.appendChild(soldOutImg);
       colaBtn.setAttribute("disabled", "");
     }
     contListsEl.appendChild(colaItem);
@@ -93,6 +95,7 @@ function renderCartList(cartItems) {
   });
 }
 
+// 획득한 음료 리스트 렌더링
 function renderMyColaList(myColas) {
   console.log(myColaList);
 
@@ -101,9 +104,9 @@ function renderMyColaList(myColas) {
     myColaItem.classList.add("item-myCola");
 
     const myColaItemImg = document.createElement("img");
-    myColaItem.classList.add("img-myCola");
     myColaItemImg.setAttribute("src", el.source);
     myColaItemImg.setAttribute("alt", el.alt);
+    myColaItemImg.classList.add("img-myCola");
 
     const myColaItemName = document.createElement("strong");
     myColaItemName.classList.add("txt-myColaName");

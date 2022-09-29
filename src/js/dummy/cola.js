@@ -4,7 +4,7 @@ export default [
     name: "Original_Cola",
     price: 1000,
     quantity: 10,
-    source: "./img/beverageImg/Original_Cola.png",
+    source: "./src/img/beverageImg/Original_Cola.png",
     alt: "오리지널 콜라",
   },
   {
@@ -12,7 +12,7 @@ export default [
     name: "Violet_Cola",
     price: 1000,
     quantity: 0,
-    source: "./img/beverageImg/Violet_Cola.png",
+    source: "./src/img/beverageImg/Violet_Cola.png",
     alt: "보라색 콜라",
   },
   {
@@ -20,7 +20,7 @@ export default [
     name: "Yellow_Cola",
     price: 1500,
     quantity: 10,
-    source: "./img/beverageImg/Yellow_Cola.png",
+    source: "./src/img/beverageImg/Yellow_Cola.png",
     alt: "노란색 콜라",
   },
   {
@@ -28,7 +28,7 @@ export default [
     name: "Cool_Cola",
     price: 2000,
     quantity: 10,
-    source: "./img/beverageImg/Cool_Cola.png",
+    source: "./src/img/beverageImg/Cool_Cola.png",
     alt: "하늘색 콜라",
   },
   {
@@ -36,7 +36,7 @@ export default [
     name: "Green_Cola",
     price: 1500,
     quantity: 10,
-    source: "./img/beverageImg/Green_Cola.png",
+    source: "./src/img/beverageImg/Green_Cola.png",
     alt: "초록색 콜라",
   },
   {
@@ -44,7 +44,7 @@ export default [
     name: "Orange_Cola",
     price: 1000,
     quantity: 10,
-    source: "./img/beverageImg/Orange_Cola.png",
+    source: "./src/img/beverageImg/Orange_Cola.png",
     alt: "주황색 콜라",
   },
 ];
