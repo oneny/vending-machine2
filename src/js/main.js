@@ -1,6 +1,8 @@
 import cola from "./dummy/cola.js";
 import cartList from "./dummy/cartList.js";
 import myColaList from "./dummy/myColaList.js";
+import toKRW from "./utils/toKRW.js";
+import toNum from "./utils/toNum.js";
 
 const state = {
   cola,
@@ -13,19 +15,28 @@ const state = {
 const contListsEl = document.querySelector(".cont-lists");
 const listCartEl = document.querySelector(".list-cart");
 const contMyColaList = document.querySelector(".cont-myColaList");
+const btnGetEl = document.querySelector(".btn-get");
+const btnMyMoneyEl = document.querySelector(".btn-mymoney");
+const txtMyMoneyEl = document.querySelector(".txt-mymoney");
+const txtBalanceEl = document.querySelector(".txt-balance");
+const inpCreditEl = document.querySelector(".inp-credit");
+const btnCreditEl = document.querySelector(".btn-credit");
+const btnBalanceEl = document.querySelector(".btn-balance");
 
 // 자판기 콜라 렌더링
 function renderColaList(colas) {
+  removeChildNodes(contListsEl);
+
   colas.forEach((el) => {
     const colaItem = document.createElement("li");
 
     const colaBtn = document.createElement("button");
     colaBtn.classList.add("btn-item");
+    colaBtn.addEventListener("click", addCartItem(el));
     colaItem.appendChild(colaBtn);
 
     const colaImg = document.createElement("img");
     colaImg.setAttribute("src", el.source);
-    colaImg.setAttribute("alt", el.alt);
     colaImg.classList.add("img-item");
 
     const colaName = document.createElement("strong");
@@ -42,27 +53,15 @@ function renderColaList(colas) {
     if (el.quantity <= 0) {
       const soldOutImg = document.createElement("img");
       soldOutImg.setAttribute("src", "./src/img/beverageImg/Sold-out.png");
+      soldOutImg.setAttribute("alt", "품절");
       colaBtn.classList.add("sold-out");
       soldOutImg.classList.add("img-soldOut");
       colaBtn.appendChild(soldOutImg);
       colaBtn.setAttribute("disabled", "");
     }
+
     contListsEl.appendChild(colaItem);
   });
-}
-
-// 콜라 음료수 버튼 이벤트 추가
-function addColaItemEvent() {
-  document
-    .querySelectorAll(".btn-cola")
-    .forEach((el) => el.addEventListener("click", addCartItem(el)));
-}
-
-// 콜라 카트 추가
-function addCartItem(el) {
-  return function () {
-    console.log(el);
-  };
 }
 
 // 카트 리스트 렌더링
@@ -74,13 +73,13 @@ function renderCartList(cartItems) {
 
     const cartItemBtn = document.createElement("button");
     cartItemBtn.classList.add("btn-cart");
+    cartItemBtn.addEventListener("click", reduceCartItemQuantity(el));
     cartItem.appendChild(cartItemBtn);
 
     const cartItemImg = document.createElement("img");
     cartItemImg.setAttribute("src", el.source);
-    cartItemImg.setAttribute("alt", el.alt);
     cartItemImg.classList.add("img-cart");
-    
+
     const cartItemName = document.createElement("strong");
     cartItemName.classList.add("txt-cartName");
     cartItemName.textContent = el.name;
@@ -97,7 +96,7 @@ function renderCartList(cartItems) {
 
 // 획득한 음료 리스트 렌더링
 function renderMyColaList(myColas) {
-  console.log(myColaList);
+  removeChildNodes(contMyColaList);
 
   myColas.forEach((el) => {
     const myColaItem = document.createElement("li");
@@ -105,7 +104,6 @@ function renderMyColaList(myColas) {
 
     const myColaItemImg = document.createElement("img");
     myColaItemImg.setAttribute("src", el.source);
-    myColaItemImg.setAttribute("alt", el.alt);
     myColaItemImg.classList.add("img-myCola");
 
     const myColaItemName = document.createElement("strong");
@@ -122,17 +120,163 @@ function renderMyColaList(myColas) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// 콜라 음료수 버튼 이벤트 추가
+function addCartItem(el) {
+  return function () {
+    const itemInCart = searchCartItemId(el.id);
+
+    if (itemInCart) {
+      itemInCart.quantity += 1;
+    } else {
+      const { id, name, price, source, alt } = el;
+      state.cartList.push({
+        colaId: id,
+        name,
+        price,
+        quantity: 1,
+        source,
+        alt,
+      });
+    }
+    el.quantity -= 1;
+    console.log("cartList", state.cartList);
+
+    renderColaList(state.cola);
+    renderCartList(state.cartList);
+  };
+}
+
+// 카트 음료수 수량 이벤트 추가
+function reduceCartItemQuantity(el) {
+  return function () {
+    const cola = searchColaItemId(el.colaId);
+    cola.quantity += 1;
+    el.quantity -= 1;
+
+    if (el.quantity <= 0) {
+      state.cartList = state.cartList.filter((v) => v.colaId !== el.colaId);
+    }
+
+    renderColaList(state.cola);
+    renderCartList(state.cartList);
+  };
+}
+
+// 콜라 획득 이벤트 추가
+function getCola() {
+  state.cartList.forEach((myCola) => {
+    const itemInMyCola = searchMyColaId(myCola.colaId);
+    if (itemInMyCola) {
+      itemInMyCola.quantity += myCola.quantity;
+    } else {
+      const { colaId, name, price, source } = myCola;
+      state.myColaList.push({
+        colaId,
+        name,
+        price,
+        source,
+        quantity: myCola.quantity,
+      });
+    }
+  });
+
+  state.cartList = []; // 카트 비우기
+  renderCartList(state.cartList);
+  renderMyColaList(state.myColaList);
+}
+
+// 소지금 입력하기
+function inputMyOwnMoney() {
+  let myMoney = prompt("소지금을 입력해주세요.");
+
+  while (true) {
+    // 문자가 들어있는 경우
+    if (isNaN(myMoney) && myMoney !== null) {
+      alert("금액을 입력해주세요.");
+      myMoney = prompt("소지금을 입력해주세요.");
+      continue;
+    }
+
+    // 취소를 눌렀을 경우
+    if (myMoney === null) return (myMoney = txtMyMoneyEl.textContent);
+    break;
+  }
+
+  txtMyMoneyEl.textContent = toKRW(myMoney);
+}
+
+// 입금하기
+function deposit() {
+  const myMoney = toNum(txtMyMoneyEl.textContent);
+  const myBalance = toNum(txtBalanceEl.textContent);
+  const inpMoney = inpCreditEl.value;
+
+  if (inpMoney.length <= 0 || isNaN(inpMoney)) {
+    alert("금액을 입력해주세요.");
+    return (inpMoney = "");
+  }
+
+  if (inpMoney > myMoney) {
+    const result = confirm(
+      "소지금이 부족합니다. 소지금을 입력 및 수정하시겠습니까?"
+    );
+    if (result) return inputMyOwnMoney();
+    else return;
+  }
+  txtBalanceEl.textContent = toKRW(myBalance + parseInt(inpMoney, 10));
+  txtMyMoneyEl.textContent = toKRW(myMoney - inpMoney);
+  inpMoney = "";
+}
+
+// 거스름돈 반환
+function getMyBalance() {
+  const myBalance = toNum(txtBalanceEl.textContent);
+
+  if (myBalance === 0) return;
+
+  const myMoney = toNum(txtMyMoneyEl.textContent);
+  txtBalanceEl.textContent = "0";
+  txtMyMoneyEl.textContent = toKRW(myBalance + myMoney);
+}
+
+// ---------------------------------------------------------------------------
+
+// 자판기 음료id 찾기
+function searchColaItemId(id) {
+  return state.cola.find((v) => v.id === id);
+}
+
+// 카트 음료id 찾기
+function searchCartItemId(id) {
+  return state.cartList.find((v) => v.colaId === id);
+}
+
+// 획득한 음료id 찾기
+function searchMyColaId(id) {
+  return state.myColaList.find((v) => v.colaId === id);
+}
+
+// 자식요소들 제거
 function removeChildNodes(el) {
   while (el.hasChildNodes()) {
     el.removeChild(el.firstChild);
   }
 }
 
+// ---------------------------------------------------------------------------
+
 function init() {
   renderColaList(state.cola);
-  addColaItemEvent();
   renderCartList(state.cartList);
   renderMyColaList(state.myColaList);
+  btnGetEl.addEventListener("click", getCola);
+  btnMyMoneyEl.addEventListener("click", inputMyOwnMoney);
+  btnCreditEl.addEventListener("click", deposit);
+  inpCreditEl.addEventListener("keyup", (e) => {
+    if (e.keyCode === 13) deposit();
+  });
+  btnBalanceEl.addEventListener("click", getMyBalance);
 }
 
 init();

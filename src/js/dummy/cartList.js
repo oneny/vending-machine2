@@ -6,7 +6,6 @@ export default [
     price: 1000,
     quantity: 1,
     source: "./src/img/beverageImg/Original_Cola.png",
-    alt: "오리지널 콜라",
   },
   {
     // id
@@ -15,6 +14,5 @@ export default [
     price: 1500,
     quantity: 2,
     source: "./src/img/beverageImg/Green_Cola.png",
-    alt: "초록색 콜라",
   },
 ]

@@ -6,7 +6,6 @@ export default [
     price: 1000,
     quantity: 1,
     source: "./src/img/beverageImg/Original_Cola.png",
-    alt: "오리지널 콜라",
   },
   {
     // id
@@ -15,7 +14,6 @@ export default [
     price: 1500,
     quantity: 1,
     source: "./src/img/beverageImg/Green_Cola.png",
-    alt: "초록색 콜라",
   },
   {
     // id
@@ -24,15 +22,13 @@ export default [
     price: 1000,
     quantity: 1,
     source: "./src/img/beverageImg/Orange_Cola.png",
-    alt: "주황색 콜라",
   },
   {
     // id
     colaId: "bcds3294",
     name: "Violet_Cola",
     price: 1000,
-    quantity: 0,
+    quantity: 5,
     source: "./src/img/beverageImg/Violet_Cola.png",
-    alt: "보라색 콜라",
   },
 ]

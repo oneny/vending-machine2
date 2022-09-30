@@ -282,7 +282,7 @@ body {
 }
 
 /* 소지금 */
-.my-info .cont-mymoney .info-mymoneny {
+.my-info .cont-mymoney .btn-mymoney {
   width: 306px;
   background-color: #EAE8FE;
   padding: 6px 10px;
@@ -291,13 +291,11 @@ body {
   justify-content: space-between;
   font-size: 14px;
   line-height: 20px;
-}
-
-.cont-mymoney .info-mymoneny .txt-mymoney {
+  border: none;
   cursor: pointer;
 }
 
-.cont-mymoney .info-mymoneny .txt-mymoney::after {
+.cont-mymoney .btn-mymoney .txt-mymoney::after {
   content: ' 원';
 }
 
@@ -395,7 +393,7 @@ body {
     flex-grow: 1;
   }
 
-  .my-info .cont-mymoney .info-mymoneny {
+  .my-info .cont-mymoney .btn-mymoney {
     width: 100%;
   }
 }
