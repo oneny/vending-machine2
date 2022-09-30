@@ -194,7 +194,8 @@ body {
 }
 
 /* 잔액 & 거스름돈 */
-.vending-machine .cont-balance {
+.vending-machine .cont-balance,
+.vending-machine .cont-credit {
   display: flex;
   justify-content: space-between;
   margin-bottom: 11px;
@@ -218,12 +219,6 @@ body {
 }
 
 /* 입금 */
-.vending-machine .cont-credit {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 11px;
-}
-
 .vending-machine .cont-credit .inp-credit {
   flex-grow: 1;
   height: 33px;

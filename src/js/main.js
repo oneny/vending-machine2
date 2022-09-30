@@ -3,6 +3,7 @@ import cartList from "./dummy/cartList.js";
 import myColaList from "./dummy/myColaList.js";
 import toKRW from "./utils/toKRW.js";
 import toNum from "./utils/toNum.js";
+import "../style/style.css";
 
 const state = {
   cola,
