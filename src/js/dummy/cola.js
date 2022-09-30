@@ -41,4 +41,32 @@ export default [
     quantity: 10,
     source: "./src/img/beverageImg/Orange_Cola.png",
   },
+  {
+    id: "ssvw8433",
+    name: "Yellow_Cola2",
+    price: 1500,
+    quantity: 0,
+    source: "./src/img/beverageImg/Yellow_Cola.png",
+  },
+  {
+    id: "kwsdk0435",
+    name: "Cool_Cola2",
+    price: 2000,
+    quantity: 10,
+    source: "./src/img/beverageImg/Cool_Cola.png",
+  },
+  {
+    id: "9kjd3l9j",
+    name: "Violet_Cola2",
+    price: 1000,
+    quantity: 10,
+    source: "./src/img/beverageImg/Violet_Cola.png",
+  },
+  {
+    id: "l0j2m0",
+    name: "Original_Cola2",
+    price: 1000,
+    quantity: 10,
+    source: "./src/img/beverageImg/Original_Cola.png",
+  },
 ];

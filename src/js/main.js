@@ -10,6 +10,7 @@ const state = {
   myColaList,
   myOwnMoney: 0, // 소지금
   myBalance: 0, // 잔액
+  currentPage: 0,
 };
 
 const contListsEl = document.querySelector(".cont-lists");
@@ -22,12 +23,17 @@ const txtBalanceEl = document.querySelector(".txt-balance");
 const inpCreditEl = document.querySelector(".inp-credit");
 const btnCreditEl = document.querySelector(".btn-credit");
 const btnBalanceEl = document.querySelector(".btn-balance");
+const btnLeftEl = document.querySelector(".btn-left");
+const btnRightEl = document.querySelector(".btn-right");
 
 // 자판기 콜라 렌더링
 function renderColaList(colas) {
   removeChildNodes(contListsEl);
 
-  colas.forEach((el) => {
+  for (let i = state.currentPage * 6; i < state.currentPage * 6 + 6; i++) {
+    const el = colas[i];
+    if (!el) break;
+
     const colaItem = document.createElement("li");
 
     const colaBtn = document.createElement("button");
@@ -61,7 +67,7 @@ function renderColaList(colas) {
     }
 
     contListsEl.appendChild(colaItem);
-  });
+  }
 }
 
 // 카트 리스트 렌더링
@@ -140,7 +146,6 @@ function addCartItem(el) {
       });
     }
     el.quantity -= 1;
-    console.log("cartList", state.cartList);
 
     renderColaList(state.cola);
     renderCartList(state.cartList);
@@ -165,6 +170,12 @@ function reduceCartItemQuantity(el) {
 
 // 콜라 획득 이벤트 추가
 function getCola() {
+  let totalPrice = 0;
+  state.cartList.forEach((item) => {
+    totalPrice = totalPrice + item.quantity * item.price;
+  });
+  if (totalPrice > txtBalanceEl.textContent) return alert("잔액이 부족합니다.");
+
   state.cartList.forEach((myCola) => {
     const itemInMyCola = searchMyColaId(myCola.colaId);
     if (itemInMyCola) {
@@ -181,6 +192,9 @@ function getCola() {
     }
   });
 
+  txtBalanceEl.textContent = toKRW(
+    toNum(txtBalanceEl.textContent) - totalPrice
+  );
   state.cartList = []; // 카트 비우기
   renderCartList(state.cartList);
   renderMyColaList(state.myColaList);
@@ -199,7 +213,8 @@ function inputMyOwnMoney() {
     }
 
     // 취소를 눌렀을 경우
-    if (myMoney === null) return (myMoney = txtMyMoneyEl.textContent);
+    if (myMoney === null || myMoney.length === 0)
+      return (myMoney = txtMyMoneyEl.textContent);
     break;
   }
 
@@ -210,7 +225,7 @@ function inputMyOwnMoney() {
 function deposit() {
   const myMoney = toNum(txtMyMoneyEl.textContent);
   const myBalance = toNum(txtBalanceEl.textContent);
-  const inpMoney = inpCreditEl.value;
+  let inpMoney = inpCreditEl.value;
 
   if (inpMoney.length <= 0 || isNaN(inpMoney)) {
     alert("금액을 입력해주세요.");
@@ -226,7 +241,7 @@ function deposit() {
   }
   txtBalanceEl.textContent = toKRW(myBalance + parseInt(inpMoney, 10));
   txtMyMoneyEl.textContent = toKRW(myMoney - inpMoney);
-  inpMoney = "";
+  inpCreditEl.value = "";
 }
 
 // 거스름돈 반환
@@ -238,6 +253,20 @@ function getMyBalance() {
   const myMoney = toNum(txtMyMoneyEl.textContent);
   txtBalanceEl.textContent = "0";
   txtMyMoneyEl.textContent = toKRW(myBalance + myMoney);
+}
+
+function countUp() {
+  state.currentPage += 1;
+  if (state.currentPage > Math.floor(state.cola.length / 6))
+    state.currentPage = 0;
+  renderColaList(state.cola);
+}
+
+function countDown() {
+  state.currentPage -= 1;
+  if (state.currentPage < 0)
+    state.currentPage = Math.floor(state.cola.length / 6);
+  renderColaList(state.cola);
 }
 
 // ---------------------------------------------------------------------------
@@ -277,6 +306,8 @@ function init() {
     if (e.keyCode === 13) deposit();
   });
   btnBalanceEl.addEventListener("click", getMyBalance);
+  btnRightEl.addEventListener("click", countUp);
+  btnLeftEl.addEventListener("click", countDown);
 }
 
 init();

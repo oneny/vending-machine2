@@ -1,13 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap");
 
 /* Resets */
-body, header, h1, h2, h3, main, section, ul, li, button, div, input, span, strong {
+body,
+header,
+h1,
+h2,
+h3,
+main,
+section,
+ul,
+li,
+button,
+div,
+input,
+span,
+strong {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-h1, h2, h3, strong {
+h1,
+h2,
+h3,
+strong {
   font-size: inherit;
   font-weight: inherit;
 }
@@ -28,8 +44,8 @@ li {
 
 /* Componenets */
 body {
-  background-color: #EAE8FE;
-  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #eae8fe;
+  font-family: "Noto Sans KR", sans-serif;
   font-weight: 500;
 }
 
@@ -55,9 +71,9 @@ body {
   width: 94px;
   padding: 6px 9px;
   border: none;
-  background: #FFFFFF;
-  box-shadow: 0px 0px 3px rgb(0 0 0 / 50%);
-  font-family: 'Noto Sans KR', sans-serif;
+  background: #ffffff;
+  box-shadow: 0 0 3px rgb(0 0 0 / 50%);
+  font-family: "Noto Sans KR", sans-serif;
   font-size: 13px;
   line-height: 19px;
   color: #000;
@@ -72,14 +88,29 @@ body {
   justify-content: center;
 }
 
+/* Vending-machine Section */
 .cont-main .vending-machine {
+  position: relative;
   padding: 30px 27px;
   margin-right: 28px; /* 자판기 화면과 나의 정보 화면 간격 */
+  background-color: #fff;
 }
 
-/* Vending-machine Section */
-.vending-machine {
-  background-color: #fff;
+.cont-main .vending-machine .btn-left,
+.cont-main .vending-machine .btn-right {
+  position: absolute;
+  top: 28.5%;
+  left: 5px;
+  font-size: 14px;
+  border: none;
+  padding: 5px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.cont-main .vending-machine .btn-right {
+  left: unset;
+  right: 5px;
 }
 
 /* 음료수 목록 */
@@ -148,7 +179,6 @@ body {
   margin-bottom: 7px;
 }
 
-
 .cont-lists .btn-item .txt-price {
   width: 70px;
   padding: 5px 15px;
@@ -176,7 +206,7 @@ body {
   align-items: center;
   flex-grow: 1;
   height: 33px;
-  background-color: #EAE8FE;
+  background-color: #eae8fe;
   padding: 6px 10px;
   font-size: 14px;
   line-height: 20px;
@@ -218,7 +248,7 @@ body {
 .vending-machine .cont-cart .list-cart {
   width: 200px; /* flex-grow로 늘리고 싶지만 오른쪽 수량이 absolute라 겹쳐진다 */
   height: 106px;
-  background-color: #EAE8FE;
+  background-color: #eae8fe;
   border: 1px solid #bdbdbd;
   border-radius: 5px;
   overflow: auto;
@@ -284,7 +314,7 @@ body {
 /* 소지금 */
 .my-info .cont-mymoney .btn-mymoney {
   width: 306px;
-  background-color: #EAE8FE;
+  background-color: #eae8fe;
   padding: 6px 10px;
   border-radius: 5px;
   display: flex;
@@ -296,7 +326,7 @@ body {
 }
 
 .cont-mymoney .btn-mymoney .txt-mymoney::after {
-  content: ' 원';
+  content: " 원";
 }
 
 .my-info .cont-myBeverage {
@@ -309,14 +339,14 @@ body {
 .my-info .cont-myBeverage .tit-myCola {
   font-size: 14px;
   font-weight: 700;
-  margin-bottom: 13px; 
+  margin-bottom: 13px;
 }
 
 /* 내 음료 목록 */
 .my-info .cont-myBeverage .cont-myColaList {
   height: 364px;
   padding: 12px 18px 12px 12px;
-  background-color: #EAE8FE;
+  background-color: #eae8fe;
   border-radius: 5px;
   border: 1px solid #bdbdbd;
   margin-bottom: 6px;
@@ -427,5 +457,4 @@ body {
   .my-info .cont-myBeverage {
     padding: 11px 27px 43px;
   }
-  
 }
